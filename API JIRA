@@ -1,0 +1,169 @@
+API JIRA
+
+/item
+POST
+{
+    typeName: "my.computer.type",
+    categoryName: "/my/folder/path",
+    fields: [
+        { typeName: "field.type.one", values: [ "value1" ] },
+        { typeName: "field.type.two", values: [ "value2" ] }
+    ]
+}
+
+/item/{itemId}/links
+POST	
+
+Links an asset to another asset using a link of a given type (see link types). Data parameter is a JSON like this:
+
+{
+    type: { id: 10000 },
+    inbound: { id: 10001 },
+    outbound: { id: 10002 }
+}
+Returns a newly created lnk
+
+/item/addorupdate
+	matchingQuery
+	unique
+	type
+	category
+JSON
+Searches for assets using matchingQuery. If assets are found, they are updated using the supplied data parameter, which looks like this:
+
+[
+    { typeName: "field.type.one", values: [ "value1" ] },
+    { typeName: "field.type.two", values: [ "value2" ] }
+]
+If the unique parameter is set to true and more than one asset is found, a "NOT ACCEPTABLE" (406) HTTP error is returned and assets are not updated.
+
+If no assets are found using matchingQuery, an asset is created. Its type is specified by the type parameter (either numerical type ID, or type dotted name) and the asset is put in the folder specified by the category parameter (either numerical ID or folder path)
+
+/item/field
+POST
+Bulk-updates a field of specified assets. Assets and fields to update and values to set are specified in the data parameter, which looks like this:
+
+{
+    itemIds: [ 10001, 10002, 10003 ],
+    fieldType: 10000,
+    values: [ "value1" ]
+}
+Note that the field type must be specified as a numerical value (not a dotted name)
+
+/item/{itemId}/field/{idOrName}
+POST
+Sets a value of an asset field, both specified as path parameters, where idOrName can either be a field ID or its dotted name. If field ID is -1, it is assumed that the field does not yet exist in an asset and it is added. The type of the field to add is specified by the fielddef URL parameter, which is a dotted name of a field type.
+
+Values to set in a field are specified as JSON list of strings in the data parameter
+
+item/{itemId}/category
+	fielddef
+POST
+Sets a value of an asset field, both specified as path parameters, where idOrName can either be a field ID or its dotted name. If field ID is -1, it is assumed that the field does not yet exist in an asset and it is added. The type of the field to add is specified by the fielddef URL parameter, which is a dotted name of a field type.
+
+Values to set in a field are specified as JSON list of strings in the data parameter
+
+/item/{itemId}/category	
+	catId
+
+POST	
+Moves an asset to a folder specified by the catId form parameter. The parameter can either by a numerical category ID or folder path.
+
+/item/category/bulkmove		
+	ids
+	catId
+POST
+Bulk moves assets with a given ids (list of numerical IDs) to a folder given by the catId parameter.
+
+/itemtype
+POST
+Adds a new asset type. Data format is:
+
+{
+    dottedName: "my.asset.type",
+    name: "Display Name of type",  
+}
+Returns a newly created item type
+/itemtype/{idOrName}
+PUT	
+Updates an asset type given by a numerical ID or dotted name. See above for the data format.
+
+The resources with paths starting with /fieldtype are for operations on Asset Tracker field types. Field types are not directly tied to asset types - the same field type can exist in multiple asset types. They are associated with asset types using the /itemtypefield resources, which define a given field type parameters, such as label title, position, size and colors, when it is used in a concrete asset type.
+/fieldtype
+POST
+Creates a new field type. Data format is:
+
+{
+    name: "dotted.field.type.name",
+    defaultTitle: "Default field label title",
+    templateName: "singlesel",
+    allowedValues: [ "option1", "option2" ]
+}
+The templateName can be one of:
+
+stringline
+user
+globalid
+itemtypeid
+stringarea
+image
+date
+integer
+double
+singlesel
+multisel
+hyperlink
+checkbox
+The singlesel and multisel templates should have allowedValues list defined.
+
+/fieldtype/{idOrName}
+PUT	
+Updates a field type given by a numerical ID or dotted name. See above for the data format
+
+The resources with paths starting with /itemtypefield are for operations on fields associated with concrete asset types.
+/itemtypefield/{idOrName}
+
+POST	
+JSON:
+FieldRepresentation
+Adds a new field definition to an item type, using default values of position, title, size, color and other parameters. A data parameter is:
+
+{
+    type: 10000,
+    name: "My label for a field"
+}  
+The type has to specify a field type (see above) by its numerical ID (not its dotted name)
+
+
+PUT	
+JSON	
+Update asset type fields positions, sizes, title, colors and other parameters.
+
+The data parameter is a list of
+
+{
+    id: 10000,
+    title: "My field label title",
+    type: 10000,
+    posx: 1,
+    posy: 0,
+    width: 1,
+    height: 1,
+    mobiley: 0,
+    css: "color: red",
+    labelCss: "color: blue",
+    requiredInCreate: true
+}
+
+
+/itemtypefield/{typeIdOrName}/{fieldIdOrName}
+PUT	
+Form:
+
+title
+bgColor
+textColor
+labelColor
+requiredInCreate
+
+Updates a field definition specified by fieldIdOrName for an asset type specified by typeIdOrName. Parameters that can be set are specified by a form

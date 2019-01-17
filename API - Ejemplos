@@ -1,0 +1,142 @@
+API - Ejemplos
+#####################JIRA SD#####################################
+Resultados Filtros
+https://itsupport.yoigo.com/rest/api/2/search?filter=Acciones_OGS
+
+BusquedaTipoQuery
+https://itsupport.yoigo.com/rest/api/2/search?jql=%22Escalado+durante+la+guardia?%22+is+not+EMPTY
+
+https://itsupport.yoigo.com/rest/api/2/search?jql=assignee=nfrancia%20and%20status=open+order+by+duedate
+
+Busqueda por Usuario
+https://itsupport.yoigo.com/rest/api/2/user?username=franciscoh
+
+Ticket concreto
+https://itsupport.yoigo.com/rest/api/2/issue/PROV-10731
+
+Comentarios dentro de un TT
+https://itsupport.yoigo.com/rest/api/2/issue/PROV-10731/comment
+	Comentario especifico dentro de un TT
+	https://itsupport.yoigo.com/rest/api/2/issue/PROV-10731/comment/742355(Id del comentario)
+
+Estados del TT
+https://itsupport.yoigo.com/rest/api/2/status
+
+
+Tipo de TTs dentro de jira(Incidencia,Problema,Peticion,Cambio,IM)
+https://itsupport.yoigo.com/rest/api/2/issuetype
+
+Tipo de Proyectos (PROV,CC,ADV,DESK)
+https://itsupport.yoigo.com/rest/api/2/project
+
+Tipo de TTs dentro de un Proyecto
+https://itsupport.yoigo.com/rest/api/2/project/ADV
+
+#####################CMDB - API##################################
+
+BUSQUEDA POR QUERY
+Resultados de summary ~ "BLACKFRIDAY Alm&BckUp Acción "
+	https://itsupport.yoigo.com/rest/api/2/search?jql=summary%20~%20%22BLACKFRIDAY%20Alm%26BckUp%20Acci%C3%B3n%20%22
+
+Busqueda por filtros salvados
+	https://itsupport.yoigo.com/rest/api/2/search?filter=Acciones_OGS ***Nomnbre del filtro***
+	https://itsupport.yoigo.com/rest/api/2/search?filter=22003 ***Id del filtro***
+
+Busquedas estandares 
+	Mis Asuntos Abiertos filter=-1
+	Reportados por Mí filter=-2
+	Recientemente Vistas filter=-3
+	Todos los asuntos filter=-4
+	Open Issues filter=-5
+	Añadidos recientemente filter=-6
+	Resueltos recientemente filter=-7
+	Actualizados recientemente filter=-8
+
+CIs 
+Informacion de 1 CI en concreto
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/item/113574
+
+LISTAR CATEGORIAS o FOLDERS (Todas)
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/category?recursive=true
+
+Tipo de ITEM
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/itemtype/
+
+Lista el Folder Path Ejemplo Fisico de Firewalls
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/category/25901/parents 
+"path":[{"id":10000,"name":"All"},{"id":10314,"name":"Hardware"},{"id":10208,"name":"Redes y Seguridad"},{"id":10163,"name":"Seguridad"},{"id":25901,"name":"Fisico"}]}
+
+BUSCAR CI por:
+system.title Ej Draculon
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/search?query=system.title%20=%20draculon
+curl --user adminpsd:pr0s0d13 -X GET https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/search?query=system.title%20=%20draculon -k  ***DESDE CLI***
+
+		"resultsCount":1,
+		"items":[
+		{
+		"id":28489,
+		"type":10100,
+		"typeName":"Elemento de Infraestructura",
+		"fields":[
+		{
+		"id":209720,
+		"type":10160,
+		"typeName":"yoigo.entorno",
+		"title":"Entorno",
+		"values":[
+		"Normal Ops."
+		],
+		"mobileY":15,
+		"templateName":"stringline",
+		"hideLabelInList":false
+		},
+		.............
+		{
+		"id":209719,
+		"type":10000,
+		"typeName":"system.title",
+		"title":"Title",
+		"values":[
+		"DRACULON"
+		],
+		"mobileY":0,
+		"templateName":"stringline",
+		"hideLabelInList":true
+		},
+		............
+
+yoigo.ip 
+https://itsupport.yoigo.com/rest/com-spartez-ephor/1.0/search?query=yoigo.ip%20%3D%20212.166.71.71
+		"resultsCount":1,
+		"items":[
+		{
+		"id":33429,
+		"type":10203,
+		"typeName":"Interfaz",
+		"fields":[
+		{
+		"id":218335,
+		"type":10000,
+		"typeName":"system.title",
+		"title":"Title",
+		"values":[
+		"E1-Servicio-212.166.71.71"
+		],
+		"mobileY":0,
+		"templateName":"stringline",
+		"hideLabelInList":true
+		},
+		{
+ 		.....................
+ 		1446556400000 - 3/11/2015
+ 		1346556400000 - 2/09/2012
+ 		1546556000000 - 3/01/2019
+ 		1546556100000 - 3/01/2019
+ 		1546556200000 - 3/01/2019
+ 		1546556300000 - 3/01/2019
+ 		1546556400000 - 4/01/2019
+ 		1546556400001 - 4/01/2019
+		1546556500000 - 4/01/2019
+		1546556600000 - 4/01/2019
+		1546556700000 - 4/01/2019
+		1546556800000 - 4/01/2019
